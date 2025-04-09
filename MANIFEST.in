@@ -1,0 +1,2 @@
+recursive-include * nomad_plugin.yaml
+graft src/nomad_ebsd_parser/example_uploads
