@@ -12,7 +12,7 @@
 
 from nomad.config import config
 from nomad.datamodel.data import Schema
-from nomad.metainfo import Quantity, SchemaPackage, MSection, Datetime, SubSection
+from nomad.metainfo import Datetime, MSection, Quantity, SchemaPackage, SubSection
 
 configuration = config.get_plugin_entry_point(
     'nomad_ebsd_parser.schema_packages:schema_package_entry_point'
@@ -68,9 +68,10 @@ class EBSDOutput(Schema):
     job = SubSection(sub_section=Job.m_def, repeats=False)
     sem_fileds = SubSection(sub_section=SEMFields.m_def, repeats=False)
     stage_position = SubSection(sub_section=StagePosition.m_def, repeats=False)
-    acquisition_surface = SubSection(sub_section=AcquisitionSurface.m_def, repeats=False)
+    acquisition_surface = SubSection(
+        sub_section=AcquisitionSurface.m_def, repeats=False
+    )
     phases = SubSection(sub_section=Phase.m_def, repeats=True)
-
 
 
 m_package.__init_metainfo__()

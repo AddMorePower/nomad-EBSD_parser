@@ -1,0 +1,103 @@
+definitions:
+  sections:
+    Job:
+      quantities:
+        magnification:
+          type: np.float64
+          shape: []
+        beam_voltage:
+          type: np.float64
+          shape: []
+        nb_points:
+          type: int
+          shape: []
+        tilt_angle:
+          type: np.float64
+          shape: []
+        tilt_axis:
+          type: np.float64
+          shape: []
+        x_cells:
+          type: int
+          shape: []
+        y_cells:
+          type: int
+          shape: []
+    SEMFields:
+      quantities:
+        detector_orientation_euler:
+          type: np.float64
+          shape: [3]
+    StagePosition:
+      quantities:
+        x_axis:
+          type: np.float64
+          shape: []
+        y_axis:
+          type: np.float64
+          shape: []
+        z_axis:
+          type: np.float64
+          shape: []
+        rotation:
+          type: np.float64
+          shape: []
+        tilt:
+          type: np.float64
+          shape: []
+    AcquisitionSurface:
+      quantities:
+        surface_orientation_euler:
+          type: np.float64
+          shape: [3]
+    Phase:
+      quantities:
+        name:
+          type: str
+        structure_name:
+          type: str
+        reference:
+          type: str
+        lattice_dimensions:
+          type: np.float64
+          shape: [3]
+        lattice_angles:
+          type: np.float64
+          shape: [3]
+        laue_group:
+          type: int
+          shape: []
+        space_group:
+          type: int
+          shape: []
+        nb_reflectors:
+          type: int
+          shape: []
+    EBSDOutput:
+      quantities:
+        format_version:
+          type: str
+        date:
+          type: Datetime
+        description:
+          type: str
+        notes:
+          type: str
+        project_notes:
+          type: str
+      sub_sections:
+        job:
+          section: Job
+          repeats: false
+        sem_fields:
+          section: SEMFields
+          repeats: false
+        stage_position:
+          section: StagePosition
+          repeats: false
+        acquisition_surface:
+          section: AcquisitionSurface
+          repeats: false
+        phases:
+          section: Phase
+          repeats: true
