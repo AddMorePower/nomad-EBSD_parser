@@ -48,6 +48,7 @@ class AcquisitionSurface(MSection):
 
 
 class Phase(MSection):
+    name = Quantity(type=str)
     structure_name = Quantity(type=str)
     reference = Quantity(type=str)
     lattice_dimensions = Quantity(type=float, shape=[3])
@@ -58,7 +59,7 @@ class Phase(MSection):
 
 
 class EBSDOutput(Schema):
-    version = Quantity(type=str)
+    format_version = Quantity(type=str)
     date = Quantity(type=Datetime)
     description = Quantity(type=str)
     notes = Quantity(type=str)
