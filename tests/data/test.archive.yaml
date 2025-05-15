@@ -1,3 +1,3 @@
 data:
-  m_def: nomad_ebsd_parser.schema_packages.schema_package.NewSchemaPackage
-  name: Markus
+  m_def: nomad_ebsd_parser.schema_packages.schema_package.EBSDOutput
+  format_version: '5.0'
