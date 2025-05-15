@@ -6,7 +6,7 @@
     "cookiecutter": {
       "full_name": "Guillaume Gaisné",
       "email": "guillaume.gaisne@esrf.fr",
-      "github_username": "Guillaume-Gaisne",
+      "github_username": "AddMorePower",
       "plugin_name": "nomad_ebsd_parser",
       "module_name": "nomad_ebsd_parser",
       "short_description": "NOMAD plugin for EBSD measurements within AddMorePower",

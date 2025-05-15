@@ -2,7 +2,7 @@ site_name: nomad_ebsd_parser
 site_description: NOMAD plugin for EBSD measurements within AddMorePower
 site_author: Guillaume Gaisné
 
-repo_url: https://github.com/Guillaume-Gaisne/nomad_ebsd_parser
+repo_url: https://github.com/AddMorePower/nomad_ebsd_parser
 edit_uri: ""
 
 nav:
