@@ -17,7 +17,7 @@ name = "nomad_ebsd_parser"
 description = "NOMAD plugin for EBSD measurements within AddMorePower"
 version = "0.1.0"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 authors = [
     { name = "Guillaume Gaisné", email = "guillaume.gaisne@esrf.fr" },
 ]
@@ -31,7 +31,7 @@ dependencies = [
 ]
 
 [project.urls]
-Repository = "https://github.com/AddMorePower/nomad_ebsd_parser"
+Repository = "https://github.com/AddMorePower/nomad-EBSD_parser"
 
 [project.optional-dependencies]
 dev = ["ruff", "pytest", "structlog"]
