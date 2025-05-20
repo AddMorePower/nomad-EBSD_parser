@@ -192,10 +192,11 @@ class NewParser(MatchingParser):
 
             try:
                 self.datah5 = h5py.File(self.mainfile)
-                self.datafile = self.datah5['1']['EBSD']['Header']
-            except Exception:
-                self.logger.error('Error opening h5 file.')
+            except Exception as err:
+                self.logger.error(f'Error opening h5 file.\n{err}')
                 return
+
+            self.datafile = self.datah5['1']['EBSD']['Header']
 
         self.parse_output()
         self.parse_job()
