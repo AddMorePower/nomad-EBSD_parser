@@ -173,13 +173,13 @@ class NewParser(MatchingParser):
         self.mainfile = mainfile
         self.archive = archive
         self.maindir = os.path.dirname(self.mainfile)
-        self.mainfile = os.path.basename(self.mainfile)
+        self.filename = os.path.basename(self.mainfile)
         self.logger = logging.getLogger(__name__) if logger is None else logger
 
         self.output_data = ebsd.EBSDOutput()
         archive.data = self.output_data
 
-        self.extension = mainfile.split('.')[-1]
+        self.extension = self.filename.split('.')[-1]
 
         if self.extension == 'cpr':
             import configparser
