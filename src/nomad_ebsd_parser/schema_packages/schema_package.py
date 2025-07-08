@@ -29,10 +29,23 @@ class Job(MSection):
     tilt_axis = Quantity(type=float, shape=[])
     x_cells = Quantity(type=int, shape=[])
     y_cells = Quantity(type=int, shape=[])
+    working_distance = Quantity(type=float, shape=[])
+    insertion_distance = Quantity(type=float, shape=[])
+    auto_background_correction = Quantity(type=float, shape=[])
+    static_background_correction = Quantity(type=float, shape=[])
+    x_step = Quantity(type=float, shape=[])
+    bounding_box_size = Quantity(type=float, shape=['*'])
+    hit_rate = Quantity(type=float, shape=[])
 
 
 class SEMFields(MSection):
     detector_orientation_euler = Quantity(type=float, shape=[3])
+
+
+class Camera(MSection):
+    camera_binning_mode = Quantity(type=str)
+    camera_exposure_time = Quantity(type=float, shape=[])
+    camera_gain = Quantity(type=float, shape=[])
 
 
 class StagePosition(MSection):
@@ -64,8 +77,10 @@ class EBSDOutput(Schema):
     description = Quantity(type=str)
     notes = Quantity(type=str)
     project_notes = Quantity(type=str)
+    site_label = Quantity(type=str)
 
     job = SubSection(sub_section=Job.m_def, repeats=False)
+    camera = SubSection(sub_section=Camera.m_def, repeats=False)
     sem_fileds = SubSection(sub_section=SEMFields.m_def, repeats=False)
     stage_position = SubSection(sub_section=StagePosition.m_def, repeats=False)
     acquisition_surface = SubSection(

@@ -44,6 +44,7 @@ class NewParser(MatchingParser):
             )
             self.output_data.notes = self.datafile['Specimen Notes'].asstr()[0]
             self.output_data.project_notes = self.datafile['Project Notes'].asstr()[0]
+            self.output_data.site_label = self.datafile['Site Label'].asstr()[0]
 
     def parse_job(self):
         job = self.output_data.m_create(ebsd.Job)
@@ -63,6 +64,20 @@ class NewParser(MatchingParser):
             job.tilt_axis = self.rad2deg(self.datafile['Tilt Axis'][()])
             job.x_cells = self.datafile['X Cells'][()]
             job.y_cells = self.datafile['Y Cells'][()]
+            job.working_distance = self.datafile['Working Distance'][()]
+            job.insertion_distance = self.datafile['Detector Insertion Distance'][()]
+            job.auto_background_correction = self.datafile['Auto Background Correction'][()]
+            job.static_background_correction = self.datafile['Static Background Correction'][()]
+            job.x_step = self.datafile['X Step'][()]
+            job.bounding_box_size = self.datafile['Bounding Box Size'][()]
+            job.hit_rate = self.datafile['Hit Rate'][()]
+
+    def parse_camera(self):
+        if self.extension == 'h5oina':
+            camera = self.output_data.m_create(ebsd.Camera)
+            camera.camera_binning_mode = self.datafile['Camera Binning Mode'].asstr()[0]
+            camera.camera_exposure_time = self.datafile['Camera Exposure Time'][()]
+            camera.camera_gain = self.datafile['Camera Gain'][()]
 
     def parse_semfields(self):
         sem_fields = self.output_data.m_create(ebsd.SEMFields)
@@ -200,6 +215,7 @@ class NewParser(MatchingParser):
 
         self.parse_output()
         self.parse_job()
+        self.parse_camera()
         self.parse_semfields()
         self.parse_stage_position()
         self.parse_acquisition_surface()
