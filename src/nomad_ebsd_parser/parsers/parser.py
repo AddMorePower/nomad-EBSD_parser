@@ -30,11 +30,12 @@ class NewParser(MatchingParser):
 
     def parse_output(self):
         if self.extension == 'cpr':
-            self.output_data.format_version = self.datafile['General']['Version']
-            self.output_data.date = self.datafile['General']['Date']
-            self.output_data.description = self.datafile['General']['Description']
-            self.output_data.notes = self.datafile['General']['Notes']
-            self.output_data.project_notes = self.datafile['General']['ProjectNotes']
+            general_cpr = self.datafile['General']
+            self.output_data.format_version = general_cpr['Version']
+            self.output_data.date = general_cpr['Date']
+            self.output_data.description = general_cpr['Description']
+            self.output_data.notes = general_cpr['Notes']
+            self.output_data.project_notes = general_cpr['ProjectNotes']
         if self.extension == 'h5oina':
             self.output_data.format_version = self.datah5['Format Version'].asstr()[0]
             self.output_data.date = self.datafile['Acquisition Date'].asstr()[0]
@@ -49,13 +50,14 @@ class NewParser(MatchingParser):
     def parse_job(self):
         job = self.output_data.m_create(ebsd.Job)
         if self.extension == 'cpr':
-            job.magnification = float(self.datafile['Job']['Magnification'])
-            job.beam_voltage = float(self.datafile['Job']['kV'])
-            job.nb_points = int(self.datafile['Job']['NoOfPoints'])
-            job.tilt_angle = float(self.datafile['Job']['TiltAngle'])
-            job.tilt_axis = float(self.datafile['Job']['TiltAxis'])
-            job.x_cells = int(self.datafile['Job']['xCells'])
-            job.y_cells = int(self.datafile['Job']['yCells'])
+            job_cpr = self.datafile['Job']
+            job.magnification = float(job_cpr['Magnification'])
+            job.beam_voltage = float(job_cpr['kV'])
+            job.nb_points = int(job_cpr['NoOfPoints'])
+            job.tilt_angle = float(job_cpr['TiltAngle'])
+            job.tilt_axis = float(job_cpr['TiltAxis'])
+            job.x_cells = int(job_cpr['xCells'])
+            job.y_cells = int(job_cpr['yCells'])
         if self.extension == 'h5oina':
             job.magnification = self.datafile['Magnification'][()]
             job.beam_voltage = self.datafile['Beam Voltage'][()]
@@ -82,9 +84,10 @@ class NewParser(MatchingParser):
     def parse_semfields(self):
         sem_fields = self.output_data.m_create(ebsd.SEMFields)
         if self.extension == 'cpr':
-            doeuler1 = float(self.datafile['SEMFields']['DOEuler1'])
-            doeuler2 = float(self.datafile['SEMFields']['DOEuler2'])
-            doeuler3 = float(self.datafile['SEMFields']['DOEuler3'])
+            doeuler_cpr = self.datafile['SEMFields']
+            doeuler1 = float(doeuler_cpr['DOEuler1'])
+            doeuler2 = float(doeuler_cpr['DOEuler2'])
+            doeuler3 = float(doeuler_cpr['DOEuler3'])
             sem_fields.detector_orientation_euler = np.array(
                 [doeuler1, doeuler2, doeuler3]
             )
@@ -96,28 +99,27 @@ class NewParser(MatchingParser):
     def parse_stage_position(self):
         stage_position = self.output_data.m_create(ebsd.StagePosition)
         if self.extension == 'cpr':
-            stage_position.x_axis = float(self.datafile['StagePosition']['XPos'])
-            stage_position.y_axis = float(self.datafile['StagePosition']['YPos'])
-            stage_position.z_axis = float(self.datafile['StagePosition']['ZPos'])
-            stage_position.rotation = float(self.datafile['StagePosition']['RPos'])
-            stage_position.tilt = float(self.datafile['StagePosition']['TPos'])
+            stage_pos_cpr = self.datafile['StagePosition']
+            stage_position.x_axis = float(stage_pos_cpr['XPos'])
+            stage_position.y_axis = float(stage_pos_cpr['YPos'])
+            stage_position.z_axis = float(stage_pos_cpr['ZPos'])
+            stage_position.rotation = float(stage_pos_cpr['RPos'])
+            stage_position.tilt = float(stage_pos_cpr['TPos'])
         if self.extension == 'h5oina':
-            stage_position.x_axis = self.datafile['Stage Position']['X'][()]
-            stage_position.y_axis = self.datafile['Stage Position']['Y'][()]
-            stage_position.z_axis = self.datafile['Stage Position']['Z'][()]
-            stage_position.rotation = self.rad2deg(
-                self.datafile['Stage Position']['Rotation'][()]
-            )
-            stage_position.tilt = self.rad2deg(
-                self.datafile['Stage Position']['Tilt'][()]
-            )
+            stage_pos_h5 = self.datafile['Stage Position']
+            stage_position.x_axis = stage_pos_h5['X'][()]
+            stage_position.y_axis = stage_pos_h5['Y'][()]
+            stage_position.z_axis = stage_pos_h5['Z'][()]
+            stage_position.rotation = self.rad2deg(stage_pos_h5['Rotation'][()])
+            stage_position.tilt = self.rad2deg(stage_pos_h5['Tilt'][()])
 
     def parse_acquisition_surface(self):
         acquisition_surface = self.output_data.m_create(ebsd.AcquisitionSurface)
         if self.extension == 'cpr':
-            euler1 = float(self.datafile['Acquisition Surface']['Euler1'])
-            euler2 = float(self.datafile['Acquisition Surface']['Euler2'])
-            euler3 = float(self.datafile['Acquisition Surface']['Euler3'])
+            euler_cpr = self.datafile['Acquisition Surface']
+            euler1 = float(euler_cpr['Euler1'])
+            euler2 = float(euler_cpr['Euler2'])
+            euler3 = float(euler_cpr['Euler3'])
             acquisition_surface.surface_orientation_euler = np.array(
                 [euler1, euler2, euler3]
             )
@@ -129,41 +131,33 @@ class NewParser(MatchingParser):
     def parse_phase(self, phase_name):
         phase = self.output_data.m_create(ebsd.Phase)
         if self.extension == 'cpr':
+            phase_cpr = self.datafile[phase_name]
             phase.name = phase_name
-            phase.structure_name = self.datafile[phase_name]['StructureName']
-            phase.reference = self.datafile[phase_name]['Reference']
-            a_lattice = float(self.datafile[phase_name]['a'])
-            b_lattice = float(self.datafile[phase_name]['b'])
-            c_lattice = float(self.datafile[phase_name]['c'])
-            alpha_lattice = float(self.datafile[phase_name]['alpha'])
-            beta_lattice = float(self.datafile[phase_name]['beta'])
-            gamma_lattice = float(self.datafile[phase_name]['gamma'])
+            phase.structure_name = phase_cpr['StructureName']
+            phase.reference = phase_cpr['Reference']
+            a_lattice = float(phase_cpr['a'])
+            b_lattice = float(phase_cpr['b'])
+            c_lattice = float(phase_cpr['c'])
+            alpha_lattice = float(phase_cpr['alpha'])
+            beta_lattice = float(phase_cpr['beta'])
+            gamma_lattice = float(phase_cpr['gamma'])
             phase.lattice_dimensions = np.array([a_lattice, b_lattice, c_lattice])
             phase.lattice_angles = np.array(
                 [alpha_lattice, beta_lattice, gamma_lattice]
             )
-            phase.laue_group = int(self.datafile[phase_name]['LaueGroup'])
-            phase.space_group = int(self.datafile[phase_name]['SpaceGroup'])
-            phase.nb_reflectors = int(self.datafile[phase_name]['NumberOfReflectors'])
+            phase.laue_group = int(phase_cpr['LaueGroup'])
+            phase.space_group = int(phase_cpr['SpaceGroup'])
+            phase.nb_reflectors = int(phase_cpr['NumberOfReflectors'])
         if self.extension == 'h5oina':
             phase.name = phase_name
-            phase.structure_name = self.datafile['Phases'][phase_name][
-                'Phase Name'
-            ].asstr()[0]
-            phase.reference = self.datafile['Phases'][phase_name]['Reference'].asstr()[
-                0
-            ]
-            phase.lattice_dimensions = self.datafile['Phases'][phase_name][
-                'Lattice Dimensions'
-            ][()][0]
-            phase.lattice_angles = self.rad2deg(
-                self.datafile['Phases'][phase_name]['Lattice Angles'][()][0]
-            )
-            phase.laue_group = self.datafile['Phases'][phase_name]['Laue Group'][()]
-            phase.space_group = self.datafile['Phases'][phase_name]['Space Group'][()]
-            phase.nb_reflectors = self.datafile['Phases'][phase_name][
-                'Number Reflectors'
-            ][()]
+            phase_h5 = self.datafile['Phases'][phase_name]
+            phase.structure_name = phase_h5['Phase Name'].asstr()[0]
+            phase.reference = phase_h5['Reference'].asstr()[0]
+            phase.lattice_dimensions = phase_h5['Lattice Dimensions'][()][0]
+            phase.lattice_angles = self.rad2deg(phase_h5['Lattice Angles'][()][0])
+            phase.laue_group = phase_h5['Laue Group'][()]
+            phase.space_group = phase_h5['Space Group'][()]
+            phase.nb_reflectors = phase_h5['Number Reflectors'][()]
 
     def parse_phases(self):
         if self.extension == 'cpr':
