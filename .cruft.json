@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/FAIRmat-NFDI/cookiecutter-nomad-plugin",
-  "commit": "d306850507a46af96b5ab71129582655ce534c86",
+  "commit": "b67d40d4d5d4be4a639baa56ecf9af41f1680830",
   "checkout": null,
   "context": {
     "cookiecutter": {
@@ -17,11 +17,18 @@
       "include_parser": true,
       "include_app": false,
       "include_example_uploads": false,
+      "include_action": true,
+      "include_api": false,
+      "include_north_tools": false,
+      "north_tool_name": "my_north_tool",
+      "include_dashboard": false,
+      "include_citation_file": false,
       "_copy_without_render": [
-        "*.html"
+        "*.html",
+        "*.png"
       ],
       "_template": "https://github.com/FAIRmat-NFDI/cookiecutter-nomad-plugin",
-      "_commit": "d306850507a46af96b5ab71129582655ce534c86"
+      "_commit": "b67d40d4d5d4be4a639baa56ecf9af41f1680830"
     }
   },
   "directory": null
